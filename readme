@@ -1,0 +1,118 @@
+# Hello World
+
+This Solidity program is a simple "Hello World" program that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
+
+## Description
+
+This program is a simple contract written in Solidity, a programming language used for developing smart contracts on the Ethereum blockchain. The contract has a single function that returns the string "Hello World!". This program serves as a simple and straightforward introduction to Solidity programming, and can be used as a stepping stone for more complex projects in the future.
+
+## Getting Started
+
+### Executing program
+
+To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
+
+Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., HelloWorld.sol). Copy and paste the following code into the file:
+
+```//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Carlsly {
+
+    constructor() {
+        holder = msg.sender;
+    }
+
+    // public variables
+    string public name = "Daddicali";
+    string public symbol = "DC";
+    uint public totalsupply = 0;
+    address public holder;
+
+    // emits events
+    event Mint(address indexed to, uint amount);
+    event Burn(address indexed from, uint amount);
+    event Transfer(address indexed from, address indexed to, uint amount);
+
+    // errors
+    error InsufficientBalance(uint balance, uint withdrawAmount);
+
+    // mapping variable
+    mapping(address => uint) public balances;
+
+    // modifiers
+    modifier onlyholder {
+        require(msg.sender == holder, "Only the holder can execute this function");
+        _;
+    }
+
+    function mint(address _address, uint _value) public onlyholder {
+        totalsupply += _value;
+        balances[_address] += _value;
+        emit Mint(_address, _value);
+    }
+
+    function burn(address _address, uint _value) public onlyholder {
+        if (balances[_address] < _value) {
+            revert InsufficientBalance({balance: balances[_address], withdrawAmount: _value});
+        } else {
+            totalsupply -= _value;
+            balances[_address] -= _value;
+            emit Burn(_address, _value);
+        }
+    }
+
+    function transfer(address _receiver, uint _value) public {
+        require(balances[msg.sender] >= _value, "The amount in the account must exceed the transferred value!");
+        balances[msg.sender] -= _value;
+        balances[_receiver] += _value;
+        emit Transfer(msg.sender, _receiver, _value);
+    }
+}
+
+
+```
+Contract Name: The contract is named Carlsly.
+
+Constructor: When the contract is deployed, the constructor function is executed. In this contract, it sets the holder variable to the address of the account that deployed the contract.
+
+Public Variables:
+
+name: A string variable representing the name of the token, set to "Daddicali".
+symbol: A string variable representing the symbol of the token, set to "DC".
+totalsupply: An unsigned integer variable representing the total supply of the token, initially set to 0.
+holder: An address variable representing the account that deployed the contract.
+
+
+Events:
+
+Mint: An event emitted when new tokens are minted (created).
+Burn: An event emitted when tokens are burned (destroyed).
+Transfer: An event emitted when tokens are transferred from one account to another.
+
+
+Errors:InsufficientBalance: An error type defined to handle cases where an account tries to withdraw more tokens than it has.
+
+Mapping: balances: A mapping that associates addresses with their token balances.
+
+
+Modifiers:onlyholder: A modifier that restricts the execution of functions to only the account that deployed the contract (the holder).
+
+
+Functions:
+
+mint: Allows the holder to create new tokens and assign them to a specified address.
+
+burn: Allows the holder to destroy tokens from a specified address if the holder has enough tokens to burn.
+
+transfer: Allows token holders to transfer tokens to other addresses, provided they have enough tokens in their balance.
+
+Overall, this contract represents a simple token (named "Daddicali" with symbol "DC") with functionality for minting, burning, and transferring tokens, with restrictions on certain operations enforced by the onlyholder modifier.
+
+
+
+carlsly june d butt
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
